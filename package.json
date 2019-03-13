@@ -1,0 +1,26 @@
+{
+  "name": "styleguide",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docz:dev": "docz dev",
+    "docz:build": "docz build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sophialittlejohn/react-graphQL-online-store.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sophialittlejohn/react-graphQL-online-store/issues"
+  },
+  "homepage": "https://github.com/sophialittlejohn/react-graphQL-online-store#readme",
+  "devDependencies": {
+    "docz": "^0.13.7",
+    "docz-theme-default": "^0.13.7",
+    "webpack": "^4.28.4"
+  }
+}
