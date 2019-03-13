@@ -1,6 +1,22 @@
-import Nav from './Nav';
-import Link from 'next/link';
+import React from 'react';
+import Router from 'next/router';
 import styled from 'styled-components';
+
+import Link from 'next/link';
+import Nav from './Nav';
+import NProgress from 'nprogress';
+
+Router.onRouteChangeStart = () => {
+  NProgress.start();
+};
+
+Router.onRouteChangeComplete = () => {
+  NProgress.done();
+};
+
+Router.onRouteChangeError = () => {
+  NProgress.done();
+};
 
 const Logo = styled.h1`
   font-size: 4rem;
@@ -32,6 +48,11 @@ const StyledHeader = styled.header`
       grid-template-columns: 1fr;
       justify-content: center;
     }
+  }
+  .sub-bar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    border-bottom: 10px solid ${props => props.theme.lightgray};
   }
 `;
 
