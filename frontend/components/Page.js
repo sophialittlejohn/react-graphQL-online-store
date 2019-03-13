@@ -47,15 +47,13 @@ injectGlobal`
 
 class Page extends Component {
   render() {
-    const { theme, on, onClick } = this.props;
+    const { theme, onClick } = this.props;
 
     return (
       <ThemeProvider theme={theme}>
         <StyledPage>
           <Meta />
-          <button on={on} onClick={onClick}>
-            Change Theme
-          </button>
+          <button onClick={onClick}>Change Theme</button>
           <Header />
           <Inner>{this.props.children}</Inner>
         </StyledPage>

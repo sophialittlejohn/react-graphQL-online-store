@@ -25,7 +25,6 @@ class MyApp extends App {
         <Page
           theme={this.state.switched ? darkTheme : lightTheme}
           onClick={this.toggleSwitch}
-          on={this.state.switched}
         >
           <Component />
         </Page>
