@@ -1,5 +1,4 @@
 {
-  "name": "This is a tedst",
   "scripts": {
     "docz:dev": "docz dev",
     "docz:build": "docz build"
