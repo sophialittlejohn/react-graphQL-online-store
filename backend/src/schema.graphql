@@ -1,0 +1,24 @@
+# public facing api
+
+# the comment blow actually does import the value from the file, it's not just a comment
+# import * from './generated/prisma.graphql'
+
+type User {
+  id: ID!
+  name: String!
+}
+
+type Mutation {
+  #   left side what we're going to take in - right side what we're going to return
+  createItem(
+    title: String
+    description: String
+    price: Int
+    image: String
+    largeImage: String
+  ): Item!
+}
+
+type Query {
+  items: [Item]!
+}
