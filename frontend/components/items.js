@@ -31,7 +31,7 @@ const ALL_ITEMS_QUERY = gql`
 class Items extends Component {
   render() {
     return (
-      <div>
+      <Center>
         <p>Items</p>
         <Query query={ALL_ITEMS_QUERY}>
           {({ data, error, loading }) => {
@@ -47,9 +47,10 @@ class Items extends Component {
             );
           }}
         </Query>
-      </div>
+      </Center>
     );
   }
 }
 
 export default Items;
+export { ALL_ITEMS_QUERY };
