@@ -95,6 +95,7 @@ class CreateItem extends Component {
               });
             }}
           >
+            <h2>Create Item</h2>
             <Error error={error} />
             <fieldset disabled={loading} aria-busy={loading}>
               <label htmlFor="file">
