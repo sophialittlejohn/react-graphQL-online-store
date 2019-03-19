@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import Router from 'next/router';
+import styled from 'styled-components';
 import gql from 'graphql-tag';
 import Form from './styles/Form';
 import Loading from './styles/Loader';
 import formatMoney from '../lib/formatMoney';
 import Error from './ErrorMessage';
+
+const UploadedImage = styled.img`
+  margin-top: 1.5rem;
+`;
 
 const CREATE_ITEM_MUTATION = gql`
   mutation CREATE_ITEM_MUTATION(
@@ -101,7 +106,9 @@ class CreateItem extends Component {
                   placeholder="Upload an Image"
                   onChange={this.uploadFile}
                 />
-                {image && !imageLoading && <img src={image} alt="Preview" />}
+                {image && !imageLoading && (
+                  <UploadedImage src={image} alt="Preview" />
+                )}
                 {!image && imageLoading && <Loading />}
               </label>
 
