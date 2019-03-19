@@ -9,6 +9,22 @@ const mutations = {
     );
     console.log('item', item);
     return item;
+  },
+  updateItem(parent, args, context, info) {
+    // first take a copy of the updates
+    const updates = { ...args };
+    // remove ID from the updates
+    delete updates.id;
+    return context.db.mutation.updateItem(
+      {
+        data: updates,
+        where: {
+          id: args.id
+        }
+      },
+      info
+    );
+  },
   }
 };
 
