@@ -17,7 +17,7 @@ const Form = styled.form`
   background: rgba(0, 0, 0, 0.02);
   border: 5px solid white;
   padding: 20px;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   line-height: 1.5;
   font-weight: 600;
   label {
@@ -28,9 +28,10 @@ const Form = styled.form`
   textarea,
   select {
     width: 100%;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid black;
+    padding: 0.8rem;
+    font-size: 1.5rem;
+    border: 1px solid ${props => props.theme.black};
+    border-radius: 0.2rem;
     &:focus {
       outline: 0;
       border-color: ${props => props.theme.red};
@@ -42,6 +43,7 @@ const Form = styled.form`
     background: red;
     color: white;
     border: 0;
+    border-radius: 0.2rem;
     font-size: 2rem;
     font-weight: 600;
     padding: 0.5rem 1.2rem;
@@ -57,7 +59,12 @@ const Form = styled.form`
       height: 10px;
       content: '';
       display: block;
-      background-image: linear-gradient(to right, #ff3019 0%, #e2b04a 50%, #ff3019 100%);
+      background-image: linear-gradient(
+        to right,
+        #ff3019 0%,
+        #e2b04a 50%,
+        #ff3019 100%
+      );
     }
     &[aria-busy='true']::before {
       background-size: 50% auto;
