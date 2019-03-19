@@ -75,16 +75,15 @@ class CreateItem extends Component {
 
   render() {
     const { image, imageLoading, price, title, description } = this.state;
+
     return (
       <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
         {(createItem, { loading, error }) => (
           <Form
             onSubmit={async event => {
-              // stop form from submiting
               event.preventDefault();
               // call the mutation
               const response = await createItem();
-              // change to single item page
               Router.push({
                 pathname: '/item',
                 query: { id: response.data.createItem.id }
@@ -113,7 +112,7 @@ class CreateItem extends Component {
                   name="title"
                   placeholder="Title"
                   required
-                  value={this.state.title}
+                  value={title}
                   onChange={this.handleChange}
                 />
               </label>
@@ -125,7 +124,7 @@ class CreateItem extends Component {
                   name="price"
                   placeholder="Price"
                   required
-                  value={this.state.price}
+                  value={price}
                   onChange={this.handleChange}
                 />
               </label>
@@ -133,11 +132,11 @@ class CreateItem extends Component {
               <label htmlFor="description">
                 Description
                 <input
-                  type="text"
+                  type="textfield"
                   name="description"
                   placeholder="Enter A Description"
                   required
-                  value={this.state.description}
+                  value={description}
                   onChange={this.handleChange}
                 />
               </label>
