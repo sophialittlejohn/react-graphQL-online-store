@@ -7,7 +7,7 @@ const mutations = {
       },
       info
     );
-    console.log('item', item);
+
     return item;
   },
   updateItem(parent, args, context, info) {
@@ -25,6 +25,14 @@ const mutations = {
       info
     );
   },
+  async deleteItem(parent, args, context, info) {
+    const where = { id: args.id };
+    // 1 find the items
+    // const item = await context.db.query.item({ where }, `{id title}`);
+    // 2 check if they own that item or have the permissions
+    //TODO
+    // 3 delete
+    return context.db.mutation.deleteItem({ where }, info);
   }
 };
 
