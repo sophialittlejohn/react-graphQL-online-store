@@ -3,6 +3,7 @@ import { Mutation } from 'react-apollo';
 import Router from 'next/router';
 import gql from 'graphql-tag';
 import Form from './styles/Form';
+import Loading from './styles/Loader';
 import formatMoney from '../lib/formatMoney';
 import Error from './ErrorMessage';
 
@@ -42,6 +43,7 @@ class CreateItem extends Component {
   };
 
   render() {
+    const { image, imageLoading, price, title, description } = this.state;
     return (
       <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
         {(createItem, { loading, error }) => (
@@ -60,6 +62,7 @@ class CreateItem extends Component {
           >
             <Error error={error} />
             <fieldset disabled={loading} aria-busy={loading}>
+                {!image && imageLoading && <Loading />}
               <label htmlFor="title">
                 Title
                 <input
