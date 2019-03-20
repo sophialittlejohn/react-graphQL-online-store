@@ -69,7 +69,7 @@ class CreateItem extends Component {
 
       this.setState({
         image: resFile.secure_url,
-        largeImage: resFile.eager.secure_url,
+        largeImage: resFile.eager[0].secure_url,
         imageLoading: false
       });
     } catch (err) {
