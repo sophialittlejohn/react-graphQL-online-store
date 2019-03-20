@@ -3,6 +3,8 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import Item from './Item';
+import Pagination from './Pagination';
+import { perPage } from '../config';
 
 const Center = styled.div`
   text-align: center;
@@ -17,8 +19,8 @@ const ItemsList = styled.div`
 `;
 
 const ALL_ITEMS_QUERY = gql`
-  query ALL_ITEMS_QUERY {
-    items {
+  query ALL_ITEMS_QUERY($skip: Int = 0, $first: Int = ${perPage}) {
+    items(first: $first, skip: $skip, orderBy: createdAt_DESC) {
       id
       title
       price
@@ -33,8 +35,14 @@ class Items extends Component {
   render() {
     return (
       <Center>
-        <p>Items</p>
-        <Query query={ALL_ITEMS_QUERY}>
+        <Pagination page={this.props.page} />
+        <Query
+          // fetchPolicy="network-only" this forces thhe query to make a network request every time and not rely on cache
+          query={ALL_ITEMS_QUERY}
+          variables={{
+            skip: this.props.page * perPage - perPage
+          }}
+        >
           {({ data, error, loading }) => {
             console.log(data, error);
             if (loading) return <p>Loading..</p>;
@@ -48,6 +56,7 @@ class Items extends Component {
             );
           }}
         </Query>
+        <Pagination page={this.props.page} />
       </Center>
     );
   }
