@@ -42,7 +42,6 @@ class SingleItem extends Component {
     return (
       <Query query={SINGLE_ITEM_QUERY} variables={{ id: this.props.id }}>
         {({ data, error, loading }) => {
-          console.log('item src', data.item);
           if (error) <Error error={error} />;
           if (!data.item) return <p>No item found!</p>;
           return (
