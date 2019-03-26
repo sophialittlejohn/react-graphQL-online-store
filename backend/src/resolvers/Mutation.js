@@ -1,5 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { randomBytes } = require('crypto');
+const { promisify } = require('util');
+const MAX_TOKEN_AGE = 1000 * 60 * 60 * 24 * 365;
 
 const mutations = {
   async createItem(parent, args, context, info) {
@@ -84,6 +87,35 @@ const mutations = {
   signout(parent, args, context, info) {
     context.response.clearCookie('token');
     return { message: 'Goodbye' };
+  },
+  async requestReset(parent, { email }, context, info) {
+    // 1. check if this is real user
+    const randomBytesPromiseified = promisify(randomBytes);
+    const user = await context.db.query.user({ where: { email: email } });
+    if (!user) {
+      throw new Error(`No such user found for email ${email}`);
+    }
+    // 2. set reset token and expiry
+    const resetToken = (await randomBytesPromiseified(20)).toString('hex');
+    const resetTokenExpiry = Date.now() + 3600000;
+    const response = await context.db.mutation.updateUser({
+      where: { email: email },
+      data: { resetToken, resetTokenExpiry }
+    });
+    // 3. email them that reset token
+    await transport.sendMail({
+      from: 'littlejohn.sophia@gmail.com',
+      to: user.email,
+      subject: 'Your Password Reset Token',
+      html: makeANiceEmail(
+        `Your Password Reset Token is here! \n\n <a href="${
+          process.env.FRONTEND_URL
+        }/reset-password?resetToken=${resetToken}">Click here to reset</a>`
+      )
+    });
+    // 4 return the message
+    return { message: 'Thanks' };
+  },
   }
 };
 
