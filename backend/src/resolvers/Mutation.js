@@ -2,6 +2,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
+
+const { transport, makeANiceEmail } = require('../mail');
+
 const MAX_TOKEN_AGE = 1000 * 60 * 60 * 24 * 365;
 
 const mutations = {
