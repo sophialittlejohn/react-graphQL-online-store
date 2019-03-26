@@ -119,6 +119,47 @@ const mutations = {
     // 4 return the message
     return { message: 'Thanks' };
   },
+  async resetPassword(
+    parent,
+    { resetToken, password, confirmPassword },
+    context,
+    info
+  ) {
+    // 1. check if this pw's match
+    if (password !== confirmPassword) {
+      throw new Error('Passwords do not match');
+    }
+    // 2. check it its a legit reset token
+    // 3. check if its expired
+    const [user] = await context.db.query.users({
+      where: {
+        resetToken,
+        resetTokenExpiry_gte: Date.now() - 3600000
+      }
+    });
+    if (!user) {
+      throw new Error('Invalid or expired reset token');
+    }
+
+    // 4. hash new password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    // 5. save new password to the user and remove old resetToken
+    const updatedUser = await context.db.mutation.updateUser({
+      where: { email: user.email },
+      data: {
+        password: hashedPassword,
+        resetToken: null,
+        resetTokenExpiry: null
+      }
+    });
+    // 6. generate jwt
+    const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
+    // 7. set jwt cookie
+    context.response.cookie('token', token, {
+      httpOnly: true,
+      maxAge: MAX_TOKEN_AGE
+    });
+    return updatedUser;
   }
 };
 
