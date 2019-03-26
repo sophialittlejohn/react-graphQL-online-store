@@ -83,7 +83,7 @@ const mutations = {
     // 4. set the cookie with the token
     context.response.cookie('token', token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 365
+      maxAge: MAX_TOKEN_AGE
     });
     return user;
   },
