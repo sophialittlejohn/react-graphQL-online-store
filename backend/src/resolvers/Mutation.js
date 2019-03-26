@@ -39,9 +39,9 @@ const mutations = {
   },
   async signup(parent, args, context, info) {
     args.email = args.email.toLowerCase();
-    // hash the password (one way hash with salt - numb at the end which makes pw it unique)
+    // 1. hash the password (one way hash with salt (numb at the end which makes pw it unique))
     const password = await bcrypt.hash(args.password, 10);
-    // create user in the db
+    // 2. create user in the db
     const user = await context.db.mutation.createUser(
       {
         data: {
@@ -52,14 +52,13 @@ const mutations = {
       },
       info
     );
-    // create JWT token
+    // 3. create JWT token
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
-    // set thhe jwt as cookie on the respionse
+    // 4. set thhe jwt as cookie on the respionse
     context.response.cookie('token', token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 365
+      maxAge: MAX_TOKEN_AGE
     });
-    // return user to the browser
     return user;
   },
   async signin(parent, { email, password }, context, info) {
