@@ -9,10 +9,18 @@ const MAX_TOKEN_AGE = 1000 * 60 * 60 * 24 * 365;
 
 const mutations = {
   async createItem(parent, args, context, info) {
-    // TODO check if user is logged in
+    if (!context.request.userId) {
+      throw new Error('You must be logged in to do that!');
+    }
     const item = await context.db.mutation.createItem(
       {
-        data: { ...args }
+        data: {
+          // this is how to create a relationship between item and user
+          user: {
+            connect: { id: context.request.userId }
+          },
+          ...args
+        }
       },
       info
     );
