@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
+const { hasPermission } = require('../utils');
 
 const { transport, makeANiceEmail } = require('../mail');
 
@@ -168,6 +169,34 @@ const mutations = {
       maxAge: MAX_TOKEN_AGE
     });
     return updatedUser;
+  },
+  async updatePermissions(parent, args, context, info) {
+    // 1. check if the user is logged in
+    if (!context.request.userId) {
+      throw new Error('You must be logged in to do that!');
+    }
+    // 2. query the current userId
+    const currentUser = await context.db.query.user(
+      {
+        where: { id: context.request.userId }
+      },
+      info
+    );
+    // 3. check if they have permissions to do this
+    hasPermission(currentUser, ['ADMIN', 'PERMISSIONUPDATE']);
+    // 4. update the permissions
+    return context.db.mutation.updateUser(
+      {
+        data: {
+          permissions: {
+            // have to use set syntax bc permissions in an enum
+            set: args.permissions
+          }
+        },
+        where: { id: args.userId }
+      },
+      info
+    );
   }
 };
 
