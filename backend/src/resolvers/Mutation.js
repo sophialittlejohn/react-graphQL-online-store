@@ -109,7 +109,7 @@ const mutations = {
     // 2. set reset token and expiry
     const resetToken = (await randomBytesPromiseified(20)).toString('hex');
     const resetTokenExpiry = Date.now() + 3600000;
-    const response = await context.db.mutation.updateUser({
+    await context.db.mutation.updateUser({
       where: { email: email },
       data: { resetToken, resetTokenExpiry }
     });
