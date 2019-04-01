@@ -30,7 +30,6 @@ server.express.use(async (request, response, next) => {
     { where: { id: request.userId } },
     '{id, permissions, email, name}'
   );
-  console.log('da userrrrrrrr', user);
   request.user = user;
   next();
 });
