@@ -5,7 +5,6 @@ import withData from '../lib/withData';
 import Page from '../components/Page';
 import { lightTheme } from '../components/styles/themes/lightTheme';
 import { darkTheme } from '../components/styles/themes/darkTheme';
-import { userInfo } from 'os';
 
 class MyApp extends App {
   state = {
