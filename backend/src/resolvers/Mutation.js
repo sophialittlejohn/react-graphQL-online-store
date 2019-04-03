@@ -237,7 +237,9 @@ const mutations = {
           user: {
             connect: { id: userId }
           },
-          item: { id: args.id }
+          item: {
+            connect: { id }
+          }
         }
       },
       info
