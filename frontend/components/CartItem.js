@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropType from 'prop-types';
+import PropTypes from 'prop-types';
 import formatMoney from '../lib/formatMoney';
 import RemoveFromCart from './RemoveFromCart';
 
@@ -39,7 +39,7 @@ const CartItem = ({ cartItem }) => {
 };
 
 CartItem.propTypes = {
-  cartItem: PropType.object.isRequired
+  cartItem: PropTypes.object.isRequired
 };
 
 export default CartItem;
