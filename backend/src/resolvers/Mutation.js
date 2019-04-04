@@ -244,6 +244,38 @@ const mutations = {
       },
       info
     );
+  },
+  async removeFromCart(parent, args, context, info) {
+    // 1. find the cart item
+    const cartItem = await context.db.query.cartItem(
+      {
+        where: { id: args.id }
+      },
+      `{id, quantity, user {id}}`
+    );
+    if (!cartItem) {
+      throw new Error('Bleeeeeeeeeeeeep');
+    }
+    // 2. make sure they own that cart item
+    if (cartItem.user.id !== context.request.userId) {
+      throw new Error('Cheatin huhhhh');
+    }
+    // 3. delete that cart item
+    if (cartItem.quantity > 1) {
+      return context.db.mutation.updateCartItem(
+        {
+          where: { id: cartItem.id },
+          data: { quantity: cartItem.quantity - 1 }
+        },
+        info
+      );
+    }
+    return context.db.mutation.deleteCartItem(
+      {
+        where: { id: args.id }
+      },
+      info
+    );
   }
 };
 
