@@ -261,15 +261,15 @@ const mutations = {
       throw new Error('Cheatin huhhhh');
     }
     // 3. delete that cart item
-    if (cartItem.quantity > 1) {
-      return context.db.mutation.updateCartItem(
-        {
-          where: { id: cartItem.id },
-          data: { quantity: cartItem.quantity - 1 }
-        },
-        info
-      );
-    }
+    // if (cartItem.quantity > 1) {
+    //   return context.db.mutation.updateCartItem(
+    //     {
+    //       where: { id: cartItem.id },
+    //       data: { quantity: cartItem.quantity - 1 }
+    //     },
+    //     info
+    //   );
+    // }
     return context.db.mutation.deleteCartItem(
       {
         where: { id: args.id }
